@@ -8,7 +8,7 @@ var $mysql   = require("mysql");
         database:""           //数据库名字
     }                                //好了，这样我们就能连接数据库了
 ////////////////////当然这是不可能的
-function queryFunc(sql,res) { 
+function queryFunc(sql,res,data={}) { 
 	// 连接数据库
 	var $sql = $mysql.createConnection(connction.mysql) 
 	$sql.on('error',err=>err.code==='PROTOCOL_CONNECTION_LOST' && setTimeout(reconn,2000))
@@ -19,7 +19,8 @@ function queryFunc(sql,res) {
 		  } 
 		  console.log('连接成功：MySQL'); 
 	 })
-	$sql.query(sql,function (err, result) {
+	console.log(sql,data)
+	$sql.query(sql,data,function (err, result) {
 		if (err) return res.json({
 			err_code: 1,
 			message: '数据不存在',
